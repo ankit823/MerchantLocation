@@ -6,7 +6,6 @@
 	<groupId>com.Location</groupId>
 	<artifactId>MerchantShopLocation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 
 	<name>MerchantShopLocation</name>
 	<description>Demo project for Spring Boot</description>
@@ -52,8 +51,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-
-	</dependencies>
+		<dependency>
+  			<groupId>commons-io</groupId>
+  			<artifactId>commons-io</artifactId>
+  			<version>2.5</version>
+		</dependency>
+		</dependencies>
 
 	<build>
 		<plugins>
@@ -61,6 +64,21 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			 <plugin>
+      <!-- Build an executable JAR -->
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>3.0.1</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <classpathPrefix>lib/</classpathPrefix>
+            <mainClass>com.geoLocation.MerchantShopLocationApplication</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
 		</plugins>
 	</build>
 

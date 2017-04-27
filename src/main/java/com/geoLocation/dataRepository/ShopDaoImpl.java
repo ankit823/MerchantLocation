@@ -47,7 +47,6 @@ public class ShopDaoImpl implements ShopDao {
 	            IOUtils.closeQuietly(inputStream);
 	        }
 			//dbFile = new ClassPathResource(LocationDatabase.DATABASE_CITY_PATH).getFile();
-			System.out.println(dbFile.getAbsolutePath()+" pa---------");
 			// This creates the DatabaseReader object,
 			// which should be reused across lookups.
 
@@ -63,8 +62,6 @@ public class ShopDaoImpl implements ShopDao {
 			Country country = response.getCountry();
 			merchant.setCountryIsoCode(country.getIsoCode());
 			merchant.setCountryName(country.getName());
-
-			// System.out.println(country.getNames().get("en"));
 
 			Subdivision subdivision = response.getMostSpecificSubdivision();
 			merchant.setSubDivisionIsoCode(subdivision.getIsoCode());
