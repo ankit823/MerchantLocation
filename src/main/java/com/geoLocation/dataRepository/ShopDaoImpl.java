@@ -2,9 +2,12 @@ package com.geoLocation.dataRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.io.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import com.geoLocation.model.LocationDatabase;
@@ -22,18 +25,32 @@ import com.maxmind.geoip2.record.Subdivision;
 @Repository
 public class ShopDaoImpl implements ShopDao {
 
-	@Value("${database_Path}")
-	private String path;
-
+	/*
+	 * @Value("${database_Path}") private String path;
+	 */
 	@Override
 	public Merchant getShopDetailsData(User user) {
 		Merchant merchant = new Merchant();
 		// A File object pointing to your GeoLite2 database
-		File dbFile = new File(user.getPath() + "/" + LocationDatabase.DATABASE_CITY_PATH);
-
-		// This creates the DatabaseReader object,
-		// which should be reused across lookups.
+		// File dbFile = new File(user.getPath() + "/" +
+		// LocationDatabase.DATABASE_CITY_PATH);
+		// File file = new ClassPathResource("countries.xml").getFile();
+		
 		try {
+			ClassPathResource classPathResource = new ClassPathResource(LocationDatabase.DATABASE_CITY_PATH);
+
+	        InputStream inputStream = classPathResource.getInputStream();
+	        File dbFile = File.createTempFile("test", ".mmdb");
+	        try {
+	            FileUtils.copyInputStreamToFile(inputStream, dbFile);
+	        } finally {
+	            IOUtils.closeQuietly(inputStream);
+	        }
+			//dbFile = new ClassPathResource(LocationDatabase.DATABASE_CITY_PATH).getFile();
+			System.out.println(dbFile.getAbsolutePath()+" pa---------");
+			// This creates the DatabaseReader object,
+			// which should be reused across lookups.
+
 			DatabaseReader reader = new DatabaseReader.Builder(dbFile).build();
 
 			// A IP Address
